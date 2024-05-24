@@ -60,3 +60,20 @@ def Q_learning_train(env, alpha, gamma, epsilon, episodes):
 env = gym.make('Taxi-v3')
 env.reset()
 Q_learn_pol, q_table = Q_learning_train(env, 0.2, 0.95, 0.1, 100000)
+
+def test_policy(env, policy):
+    state = env.reset()
+    state = state if isinstance(state, int) else state[0]
+    done = False
+    total_reward = 0
+
+    while not done:
+
+        action = np.argmax(policy[state])
+        state, reward, done, _ ,_= env.step(action)
+        total_reward += reward
+
+    return total_reward
+
+test_reward = test_policy(env, Q_learn_pol)
+print(f"Total reward on new map: {test_reward}")
